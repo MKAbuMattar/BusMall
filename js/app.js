@@ -108,36 +108,21 @@ btnScore.addEventListener('click', showProductList);
 
 function showProductList() {
 
-  removeProductList();
-
   const h2El = document.createElement('h2');
   productList.appendChild(h2El);
   h2El.setAttribute('class', 'row center');
   h2El.textContent = 'Product List';
-  h2El.id = 'product-list-title';
 
   const ulEl = document.createElement('ul');
   productList.appendChild(ulEl);
-  ulEl.id = 'product-list-item';
 
   for (let i = 0; i < names.length; i++) {
     const liEl = document.createElement('li');
     ulEl.appendChild(liEl);
     liEl.textContent = `${Product.all[i].name} had ${Product.all[i].votes} votes, and was seen ${Product.all[i].views} times.`;
   }
-}
 
-function removeProductList() {
-
-  const idItem = document.getElementById('product-list-item');
-  const idTitle = document.getElementById('product-list-title');
-
-  if (idItem !== null) {
-    idItem.remove();
-  }
-  if (idTitle !== null) {
-    idTitle.remove();
-  }
+  btnScore.removeEventListener('click', showProductList);
 }
 
 render();
