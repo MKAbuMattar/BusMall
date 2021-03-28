@@ -85,39 +85,41 @@ function render() {
 imgSection.addEventListener('click', swapImg);
 
 function swapImg(event) {
-  if (event.target.id !== 'images-section') {
-    if (event.target.id === leftImg.id) {
-      Product.all[leftIndex].votes++;
+  if (totnumVote < numVote) {
+    if (event.target.id !== 'images-section') {
+      if (event.target.id === leftImg.id) {
+        Product.all[leftIndex].votes++;
+      }
+      else if (event.target.id === centerImg.id) {
+        Product.all[centerIndex].votes++;
+      }
+      else {
+        Product.all[rightIndex].votes++;
+      }
     }
-    else if (event.target.id === centerImg.id) {
-      Product.all[centerIndex].votes++;
-    }
-    else {
-      Product.all[rightIndex].votes++;
-    }
-  }
-
-  totnumVote++;
-
-  if (totnumVote === numVote) {
+    totnumVote++;
+    render();
+  } else {
     btnScore.classList.remove('hide');
   }
-
-  render();
 }
 
 btnScore.addEventListener('click', showProductList);
 
 function showProductList() {
+
   removeProductList();
+
   const h2El = document.createElement('h2');
   productList.appendChild(h2El);
   h2El.setAttribute('class', 'row center');
   h2El.textContent = 'Product List';
   h2El.id = 'product-list-title';
+
   const ulEl = document.createElement('ul');
-  ulEl.id = 'product-list-item';
   productList.appendChild(ulEl);
+  ulEl.id = 'product-list-item';
+
   for (let i = 0; i < names.length; i++) {
     const liEl = document.createElement('li');
     ulEl.appendChild(liEl);
@@ -126,8 +128,10 @@ function showProductList() {
 }
 
 function removeProductList() {
+
   const idItem = document.getElementById('product-list-item');
   const idTitle = document.getElementById('product-list-title');
+
   if (idItem !== null) {
     idItem.remove();
   }
