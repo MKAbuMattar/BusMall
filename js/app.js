@@ -101,6 +101,7 @@ function swapImg(event) {
     render();
   } else {
     btnScore.classList.remove('hide');
+    imgSection.removeEventListener('click', swapImg);
   }
 }
 
