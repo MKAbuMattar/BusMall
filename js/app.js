@@ -44,6 +44,8 @@ let totnumVote = 0;
 let views = [];
 let votes = [];
 
+let temp = [];
+
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -62,45 +64,45 @@ for (let i = 0; i < names.length; i++) {
 }
 
 function render() {
+
   leftIndex = Number(randomNumber(0, Product.all.length - 1));
   centerIndex = Number(randomNumber(0, Product.all.length - 1));
   rightIndex = Number(randomNumber(0, Product.all.length - 1));
 
-  // console.log(`leftIndex = ${leftIndex}\ncenterIndex = ${centerIndex}\nrightIndex = ${rightIndex}\n`);
-
-  let tempLeftIndex;
-  let tempCenterIndex;
-  let tempRightIndex;
-
-
-  if ((leftIndex === centerIndex || centerIndex === rightIndex || leftIndex === rightIndex) ||
-    tempLeftIndex === leftIndex || tempLeftIndex === centerIndex || tempLeftIndex === rightIndex ||
-    tempRightIndex === leftIndex || tempRightIndex === centerIndex || tempRightIndex === rightIndex ||
-    tempCenterIndex === leftIndex || tempCenterIndex === centerIndex || tempCenterIndex === rightIndex) {
+  if (leftIndex === centerIndex || centerIndex === rightIndex || leftIndex === rightIndex) {
+    // console.log(`${leftIndex},${centerIndex},${rightIndex}`);
     render();
-    // console.log(`tempLeftIndex = ${tempLeftIndex}\ntempCenterIndex = ${tempCenterIndex}\ntempRightIndex = ${tempRightIndex}\n`);
-  }
-  else {
+  } else if (temp.includes(leftIndex)) {
+    // console.log(`leftIndex: ${temp} == ${leftIndex}`);
+    render();
+  } else if (temp.includes(centerIndex)) {
+    // console.log(`centerIndex: ${temp} == ${centerIndex}`);
+    render();
+  } else if (temp.includes(rightIndex)) {
+    // console.log(`rightIndex: ${temp} == ${rightIndex}`);
+    render();
+  } else {
+    temp = [];
+
     leftImg.src = Product.all[leftIndex].path;
     leftImg.alt = Product.all[leftIndex].name;
     leftImg.title = Product.all[leftIndex].name;
     Product.all[leftIndex].views++;
+    temp.push(Number(leftIndex));
 
     centerImg.src = Product.all[centerIndex].path;
     centerImg.alt = Product.all[centerIndex].name;
     centerImg.title = Product.all[centerIndex].name;
     Product.all[centerIndex].views++;
+    temp.push(Number(centerIndex));
 
     rightImg.src = Product.all[rightIndex].path;
     rightImg.alt = Product.all[rightIndex].name;
     rightImg.title = Product.all[rightIndex].name;
     Product.all[rightIndex].views++;
+    temp.push(Number(rightIndex));
 
-    tempLeftIndex = leftIndex;
-    tempCenterIndex = centerIndex;
-    tempRightIndex = rightIndex;
-
-    // console.log(`tempLeftIndex = ${tempLeftIndex}\ntempCenterIndex = ${tempCenterIndex}\ntempRightIndex = ${tempRightIndex}\n`);
+    console.log(`${temp}\n`);
   }
 }
 
