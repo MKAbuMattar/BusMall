@@ -85,7 +85,8 @@ header h1 {
   display: none;
 }
 
-.product-list-section h2 {
+.product-list-section h2,
+.attempt-section h2 {
   font-size: 2rem;
   margin: 2rem;
 }

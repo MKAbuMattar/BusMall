@@ -15,6 +15,7 @@
     <h1>BusMall</h1>
   </header>
   <main>
+    <section class="attempt-section" id="attempt-section"></section>
     <section class="row img-section center" id="img-section">
       <div class="col-img">
         <img id="left-img" src="" alt="" title="">
@@ -27,13 +28,16 @@
       </div>
     </section>
     <section class="row center score-section">
-      <button class="btn btn-score hide" id="btn-score">score</button>
-      <canvas id="myChart"></canvas>
+      <button class="btn btn-score" id="btn-score">score</button>
     </section>
     <section class="row center product-list-section" id="product-list"></section>
+    <section class="row center hide" id="chart-section">
+      <canvas id="myChart"></canvas>
+    </section>
   </main>
   <footer></footer>
-  <!-- <script>
+
+  <script>
     (function () {
       function async_load() {
         var s = document.createElement('script');
@@ -48,8 +52,8 @@
       else
         window.addEventListener('load', async_load, false);
     })();
-  </script> -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script> -->
   <script src="./js/app.js"></script>
 </body>
 
