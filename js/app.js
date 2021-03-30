@@ -23,14 +23,18 @@ const names = [
   'wine-glass',
 ];
 
+const attemptSection = document.getElementById('attempt-section');
+
 const imgSection = document.getElementById('img-section');
 const leftImg = document.getElementById('left-img');
 const centerImg = document.getElementById('center-img');
 const rightImg = document.getElementById('right-img');
 
-// const btnScore = document.getElementById('btn-score');
+const btnScore = document.getElementById('btn-score');
 
-// const productList = document.getElementById('product-list');
+const productList = document.getElementById('product-list');
+
+const chartSection = document.getElementById('chart-section');
 
 let ctx = document.getElementById('myChart').getContext('2d');
 
@@ -38,8 +42,16 @@ let leftIndex;
 let centerIndex;
 let rightIndex;
 
-let numVote = 25;
-let totnumVote = 0;
+let attempts = 25;
+let totAttempt = 0;
+
+let dbAttempt = Number(localStorage.getItem('totAttempt'));
+
+if (dbAttempt !== 0) {
+  totAttempt = dbAttempt;
+  console.log(totAttempt);
+  renderAttemptCount();
+}
 
 let views = [];
 let votes = [];
@@ -57,10 +69,17 @@ function Product(name) {
   this.views = 0;
   Product.all.push(this);
 }
+
 Product.all = [];
 
 for (let i = 0; i < names.length; i++) {
   new Product(names[i]);
+}
+
+function settingItem() {
+  let data = JSON.stringify(Product.all);
+  localStorage.setItem('Product', data);
+  localStorage.setItem('totAttempt', totAttempt);
 }
 
 function render() {
@@ -102,14 +121,14 @@ function render() {
     Product.all[rightIndex].views++;
     temp.push(Number(rightIndex));
 
-    console.log(`${temp}\n`);
+    // console.log(`${temp}\n`);
   }
 }
 
 imgSection.addEventListener('click', swapImg);
 
 function swapImg(event) {
-  if (totnumVote < numVote) {
+  if (totAttempt < attempts) {
     if (event.target.id !== 'images-section') {
       if (event.target.id === leftImg.id) {
         Product.all[leftIndex].votes++;
@@ -121,46 +140,97 @@ function swapImg(event) {
         Product.all[rightIndex].votes++;
       }
     }
-    totnumVote++;
+    totAttempt++;
+    settingItem();
+    renderAttemptCount();
     render();
   } else {
     // btnScore.classList.remove('hide');
-
-    for (let i = 0; i < names.length; i++) {
-      views.push(Product.all[i].views);
-      votes.push(Product.all[i].votes);
-    }
-
-    chartJS();
     imgSection.removeEventListener('click', swapImg);
   }
 }
 
-// btnScore.addEventListener('click', showProductList);
+btnScore.addEventListener('click', showProductList);
 
-// function showProductList() {
+function showProductList() {
+  showHiedProductList();
+  // btnScore.removeEventListener('click', showProductList);
+}
 
-//   const h2El = document.createElement('h2');
-//   productList.appendChild(h2El);
-//   h2El.setAttribute('class', 'row center');
-//   h2El.textContent = 'Product List';
+function gettingItem() {
+  let stringObj = localStorage.getItem('Product');
+  let normalObj = JSON.parse(stringObj);
 
-//   const ulEl = document.createElement('ul');
-//   productList.appendChild(ulEl);
+  if (normalObj !== null) {
+    Product.all = normalObj;
+  }
 
-//   for (let i = 0; i < names.length; i++) {
-//     const liEl = document.createElement('li');
-//     ulEl.appendChild(liEl);
-//     liEl.textContent = `${Product.all[i].name} had ${Product.all[i].votes} votes, and was seen ${Product.all[i].views} times.`;
+  renderProductList();
+  chartJS();
+}
 
-//     views.push(Product.all[i].views);
-//     votes.push(Product.all[i].votes);
-//   }
+function renderProductList() {
+  const h2El = document.createElement('h2');
+  productList.appendChild(h2El);
+  h2El.setAttribute('class', 'row center');
+  h2El.textContent = 'Product List';
+  h2El.id = 'product-List-h2';
 
-//   btnScore.removeEventListener('click', showProductList);
-// }
+  const ulEl = document.createElement('ul');
+  productList.appendChild(ulEl);
+  ulEl.id = 'product-List-ul';
+
+  for (let i = 0; i < names.length; i++) {
+    const liEl = document.createElement('li');
+    ulEl.appendChild(liEl);
+    liEl.textContent = `${Product.all[i].name} had ${Product.all[i].votes} votes, and was seen ${Product.all[i].views} times.`;
+    views.push(Product.all[i].views);
+    votes.push(Product.all[i].votes);
+  }
+}
+
+function showHiedProductList() {
+
+  let idProductListH2 = document.getElementById('product-List-h2');
+  let idProductListUl = document.getElementById('product-List-ul');
+
+  if (!idProductListH2 || !idProductListUl) {
+    gettingItem();
+  }
+  else {
+    idProductListH2.remove();
+    idProductListUl.remove();
+  }
+
+
+  if (chartSection.classList.contains('hide')) {
+    chartSection.classList.remove('hide');
+  } else {
+    chartSection.classList.add('hide');
+  }
+
+}
+
+function renderAttemptCount() {
+  let idAttemptCountH2 = document.getElementById('attempt-count-h2');
+
+  if (idAttemptCountH2 !== null) {
+    idAttemptCountH2.remove();
+  }
+  const h2El = document.createElement('h2');
+  attemptSection.appendChild(h2El);
+  h2El.setAttribute('class', 'row center');
+  h2El.id = 'attempt-count-h2';
+  h2El.textContent = `Attempt Count ${totAttempt}/${attempts}`;
+
+}
 
 function chartJS() {
+
+  for (let i = 0; i < names.length; i++) {
+    views.push(Product.all[i].views);
+    votes.push(Product.all[i].votes);
+  }
 
   let chart = new Chart(ctx, {
     // The type of chart we want to create
