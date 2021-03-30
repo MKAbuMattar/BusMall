@@ -47,10 +47,12 @@ let totAttempt = 0;
 
 let dbAttempt = Number(localStorage.getItem('totAttempt'));
 
-if (dbAttempt !== 0) {
+if (dbAttempt !== 0 && dbAttempt !== attempts) {
   totAttempt = dbAttempt;
   // console.log(totAttempt);
   renderAttemptCount();
+} else if (dbAttempt === attempts) {
+  totAttempt = 0;
 }
 
 let views = [];
@@ -170,10 +172,9 @@ function gettingItem() {
   if (normalObj !== null) {
     Product.all = normalObj;
   }
-
-  renderProductList();
-  chartJS();
 }
+
+gettingItem();
 
 function renderProductList() {
   const h2El = document.createElement('h2');
@@ -202,12 +203,13 @@ function showHiedProductList() {
 
   if (!idProductListH2 || !idProductListUl) {
     gettingItem();
+    renderProductList();
+    chartJS();
   }
   else {
     idProductListH2.remove();
     idProductListUl.remove();
   }
-
 
   if (chartSection.classList.contains('hide')) {
     chartSection.classList.remove('hide');
