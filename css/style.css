@@ -54,6 +54,10 @@ header h1 {
   box-shadow: 0 20px 40px -14px rgb(170, 86, 86);
 }
 
+.score-section {
+  padding-bottom: 2rem;
+}
+
 .btn {
   border: 0;
   background: transparent;
@@ -98,4 +102,9 @@ header h1 {
 .product-list-section ul li {
   font-size: 1.3rem;
   line-height: 1.4;
+}
+
+.w80 {
+  width: 80%;
+  margin: 0 auto;
 }

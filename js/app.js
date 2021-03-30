@@ -106,19 +106,16 @@ function render() {
     leftImg.src = Product.all[leftIndex].path;
     leftImg.alt = Product.all[leftIndex].name;
     leftImg.title = Product.all[leftIndex].name;
-    Product.all[leftIndex].views++;
     temp.push(Number(leftIndex));
 
     centerImg.src = Product.all[centerIndex].path;
     centerImg.alt = Product.all[centerIndex].name;
     centerImg.title = Product.all[centerIndex].name;
-    Product.all[centerIndex].views++;
     temp.push(Number(centerIndex));
 
     rightImg.src = Product.all[rightIndex].path;
     rightImg.alt = Product.all[rightIndex].name;
     rightImg.title = Product.all[rightIndex].name;
-    Product.all[rightIndex].views++;
     temp.push(Number(rightIndex));
 
     // console.log(`${temp}\n`);
@@ -140,6 +137,10 @@ function swapImg(event) {
         Product.all[rightIndex].votes++;
       }
     }
+    Product.all[leftIndex].views++;
+    Product.all[centerIndex].views++;
+    Product.all[rightIndex].views++;
+
     totAttempt++;
     settingItem();
     renderAttemptCount();
