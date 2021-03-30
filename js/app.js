@@ -49,7 +49,7 @@ let dbAttempt = Number(localStorage.getItem('totAttempt'));
 
 if (dbAttempt !== 0) {
   totAttempt = dbAttempt;
-  console.log(totAttempt);
+  // console.log(totAttempt);
   renderAttemptCount();
 }
 
@@ -146,9 +146,14 @@ function swapImg(event) {
     renderAttemptCount();
     render();
   } else {
-    // btnScore.classList.remove('hide');
+    btnScore.classList.remove('hide');
     imgSection.removeEventListener('click', swapImg);
   }
+}
+
+if (attempts === totAttempt) {
+  btnScore.classList.remove('hide');
+  imgSection.removeEventListener('click', swapImg);
 }
 
 btnScore.addEventListener('click', showProductList);
